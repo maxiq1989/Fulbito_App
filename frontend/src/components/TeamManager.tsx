@@ -14,7 +14,7 @@ interface Team {
 }
 
 interface TeamManagerProps {
-  players: Player[]; // Prop que pasa la lista de jugadores desde App.tsx
+  players: Player[]; // ✅ Recibe jugadores dinámicos desde `App.tsx`
 }
 
 function TeamManager({ players }: TeamManagerProps) {
@@ -45,52 +45,74 @@ function TeamManager({ players }: TeamManagerProps) {
   };
 
   return (
-    <div className="mt-5">
-      <h3>Gestión de Equipos</h3>
-      <input
-        type="text"
-        placeholder="Nombre del equipo"
-        value={teamName}
-        onChange={(e) => setTeamName(e.target.value)}
-      />
-      <ul>
-        {players.map((player, index) => (
-          <li
-            key={index}
-            onClick={() => togglePlayerSelection(player)}
-            style={{
-              cursor: 'pointer',
-              backgroundColor: selectedPlayers.includes(player) ? 'lightgreen' : 'transparent',
-            }}
-          >
-            {player.name} {player.lastName}
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleCreateTeam}>Crear Equipo</button>
-      <h3>Equipos Creados</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre del Equipo</th>
-            <th>Jugadores</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teams.map((team, index) => (
-            <tr key={index}>
-              <td>{team.name}</td>
-              <td>
-                <ul>
-                  {team.players.map((player, idx) => (
-                    <li key={idx}>{player.name} {player.lastName}</li>
-                  ))}
-                </ul>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="container mt-5">
+      <div className="card shadow-lg">
+        <div className="card-header bg-primary text-white">
+          <h2 className="text-center">Gestión de Equipos</h2>
+        </div>
+        <div className="card-body">
+          <div className="mb-3">
+            <label className="form-label">Nombre del Equipo</label>
+            <input
+              type="text"
+              className="form-control"
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              placeholder="Ej: Los Invencibles"
+            />
+          </div>
+
+          <h4>Selecciona Jugadores (Máximo 5)</h4>
+          <ul className="list-group mb-3">
+            {players.length > 0 ? (
+              players.map((player, index) => (
+                <li
+                  key={index}
+                  className={`list-group-item ${selectedPlayers.includes(player) ? 'list-group-item-success' : ''}`}
+                  onClick={() => togglePlayerSelection(player)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <strong>{player.name} {player.lastName}</strong> - Apodo: {player.nickname} - Nivel: {player.skillLevel}
+                </li>
+              ))
+            ) : (
+              <p className="text-muted">No hay jugadores registrados.</p>
+            )}
+          </ul>
+
+          <button className="btn btn-primary w-100" onClick={handleCreateTeam}>Crear Equipo</button>
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <h3 className="text-center text-primary">Equipos Creados</h3>
+        {teams.length > 0 ? (
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Nombre del Equipo</th>
+                <th>Jugadores</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teams.map((team, index) => (
+                <tr key={index}>
+                  <td>{team.name}</td>
+                  <td>
+                    <ul>
+                      {team.players.map((player, idx) => (
+                        <li key={idx}>{player.name} {player.lastName} (Apodo: {player.nickname})</li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center text-muted">Aún no hay equipos creados.</p>
+        )}
+      </div>
     </div>
   );
 }

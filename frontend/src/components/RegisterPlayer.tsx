@@ -10,7 +10,7 @@ interface Player {
 
 interface RegisterPlayerProps {
   players: Player[];
-  setPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  setPlayers: React.Dispatch<React.SetStateAction<Player[]>>; // ✅ Tipo correcto para `setPlayers`
 }
 
 function RegisterPlayer({ players, setPlayers }: RegisterPlayerProps) {
@@ -28,7 +28,8 @@ function RegisterPlayer({ players, setPlayers }: RegisterPlayerProps) {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setPlayers([...players, player]); // Actualizamos la lista global de jugadores
+
+    setPlayers([...players, player]); // ✅ Actualiza la lista global
 
     setPlayer({
       name: '',
@@ -38,85 +39,40 @@ function RegisterPlayer({ players, setPlayers }: RegisterPlayerProps) {
       skillLevel: ''
     });
 
-    alert('¡Jugador registrado exitosamente!');
+    alert('Jugador registrado exitosamente.');
   };
 
   return (
-    <div className="card shadow-lg mt-4">
-      <div className="card-header bg-success text-white">
-        <h2 className="text-center">
-          <i className="fas fa-futbol me-2"></i> Registro de Jugadores
-        </h2>
-      </div>
-      <div className="card-body">
-        <form onSubmit={handleSubmit}>
-          {/* Formulario de registro */}
-          <div className="row mb-3">
-            <div className="col-md-6">
-              <label htmlFor="name" className="form-label">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                value={player.name}
-                onChange={handleChange}
-                required
-              />
+    <div className="container mt-4">
+      <div className="card shadow-lg">
+        <div className="card-header bg-success text-white">
+          <h2 className="text-center">Registrar Jugador</h2>
+        </div>
+        <div className="card-body">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Nombre</label>
+              <input type="text" className="form-control" name="name" value={player.name} onChange={handleChange} required />
             </div>
-            <div className="col-md-6">
-              <label htmlFor="lastName" className="form-label">Apellido</label>
-              <input
-                type="text"
-                className="form-control"
-                id="lastName"
-                name="lastName"
-                value={player.lastName}
-                onChange={handleChange}
-                required
-              />
+            <div className="mb-3">
+              <label className="form-label">Apellido</label>
+              <input type="text" className="form-control" name="lastName" value={player.lastName} onChange={handleChange} required />
             </div>
-          </div>
-          <div className="row mb-3">
-            <div className="col-md-4">
-              <label htmlFor="age" className="form-label">Edad</label>
-              <input
-                type="number"
-                className="form-control"
-                id="age"
-                name="age"
-                value={player.age}
-                onChange={handleChange}
-                required
-              />
+            <div className="mb-3">
+              <label className="form-label">Edad</label>
+              <input type="number" className="form-control" name="age" value={player.age} onChange={handleChange} required />
             </div>
-            <div className="col-md-4">
-              <label htmlFor="nickname" className="form-label">Apodo</label>
-              <input
-                type="text"
-                className="form-control"
-                id="nickname"
-                name="nickname"
-                value={player.nickname}
-                onChange={handleChange}
-                required
-              />
+            <div className="mb-3">
+              <label className="form-label">Apodo</label>
+              <input type="text" className="form-control" name="nickname" value={player.nickname} onChange={handleChange} required />
             </div>
-            <div className="col-md-4">
-              <label htmlFor="skillLevel" className="form-label">Nivel de Habilidad</label>
-              <input
-                type="number"
-                className="form-control"
-                id="skillLevel"
-                name="skillLevel"
-                value={player.skillLevel}
-                onChange={handleChange}
-                required
-              />
+            <div className="mb-3">
+              <label className="form-label">Nivel de Habilidad (1-10)</label>
+              <input type="number" className="form-control" name="skillLevel" value={player.skillLevel} onChange={handleChange} required min="1" max="10" />
             </div>
-          </div>
-          <button type="submit" className="btn btn-success w-100">Registrar Jugador</button>
-        </form>
+            <button type="submit" className="btn btn-success w-100">Registrar</button>
+          </form>
+        </div>
       </div>
     </div>
   );
