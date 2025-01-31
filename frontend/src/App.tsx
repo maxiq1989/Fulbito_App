@@ -19,11 +19,13 @@ function Login() {
     const navigate = useNavigate();
 
     const handleLogin = (e: React.FormEvent) => {
+        console.log('Intento de inicio de sesión con usuario:', username);
         e.preventDefault();
         const userExists = users.find(user => user.username === username && user.password === password);
         if (userExists) {
             navigate('/dashboard');
         } else {
+            console.log('Error: Credenciales incorrectas');
             alert('Credenciales incorrectas');
         }
     };
@@ -61,8 +63,10 @@ function Register() {
     const navigate = useNavigate();
 
     const handleRegister = (e: React.FormEvent) => {
+        console.log('Intento de registro de usuario:', newUsername);
         e.preventDefault();
         users.push({ username: newUsername, password: newPassword });
+        console.log('Usuario registrado con éxito:', newUsername);
         alert('Usuario registrado con éxito');
         navigate('/login');
     };
@@ -105,6 +109,7 @@ function Dashboard() {
 }
 
 function App() {
+    console.log('Aplicación iniciada');
     return (
         <Router>
             <Routes>
